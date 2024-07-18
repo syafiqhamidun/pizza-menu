@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 
-import './App.css'
-import React from 'react';
+import "./App.css";
+import React from "react";
 
 const pizzaData = [
   {
@@ -12,6 +13,7 @@ const pizzaData = [
     price: 6,
     photoName: "pizzas/focaccia.jpg",
     soldOut: false,
+    inCase: true,
   },
   {
     name: "Pizza Margherita",
@@ -19,6 +21,7 @@ const pizzaData = [
     price: 10,
     photoName: "pizzas/margherita.jpg",
     soldOut: false,
+    inCase: true,
   },
   {
     name: "Pizza Spinaci",
@@ -26,6 +29,7 @@ const pizzaData = [
     price: 12,
     photoName: "pizzas/spinaci.jpg",
     soldOut: false,
+    inCase: true,
   },
   {
     name: "Pizza Funghi",
@@ -33,6 +37,7 @@ const pizzaData = [
     price: 12,
     photoName: "pizzas/funghi.jpg",
     soldOut: false,
+    inCase: true,
   },
   {
     name: "Pizza Salamino",
@@ -40,6 +45,7 @@ const pizzaData = [
     price: 15,
     photoName: "pizzas/salamino.jpg",
     soldOut: true,
+    inCase: true,
   },
   {
     name: "Pizza Prosciutto",
@@ -47,75 +53,105 @@ const pizzaData = [
     price: 18,
     photoName: "pizzas/prosciutto.jpg",
     soldOut: false,
+    inCase: true,
   },
 ];
 
-
 function App() {
-
   return (
-    <>
-      <div>
-        <Header/>
-        <Menu/>
-        <Footer/>
-      </div>
-    </>
-  )
+    <div className="container">
+      <Header />
+      <Menu />
+      <Footer />
+    </div>
+  );
 }
 
 function Header() {
-  const style = {
-    color: 'red',
-    fontSize: '48px',
-    textTransform: 'uppercase'
-  };
-
-  return(
-    <h1 style={style}>
-      Fast React Pizza Co.
-    </h1>
-  )
-}
-function Menu() {
-  return(
-    <div>
-      <h2> Our Menu</h2>
-      <Pizza/>
-      <Pizza/>
-      <Pizza/>
-    </div>
-  )
-}
-function Footer() {
-
-  const hour = new Date().getHours();
-  const openHour = 8;
-  const closeHour = 22;
-  const isOpen = hour >= openHour && hour <= closeHour;
-  console.log(isOpen)
-
-  // if (hour >= openHour && hour <= closeHour) {
-  //   alert(`We're currently Open`)
-  // } else {
-  //   alert(`We're close for Today`)
-  // }
+  // const style = {
+  //   color: 'red',
+  //   fontSize: '48px',
+  //   textTransform: 'uppercase'
+  // };
+  const style = {};
 
   return (
-    <footer>{new Date().toLocaleTimeString()}  We're Currently Open</footer>
-  )
+    <header className="header">
+      <h1 style={style}>Fast React Pizza Co.</h1>
+    </header>
+  );
 }
+function Menu() {
+  return (
 
-function Pizza() {
-  return(
+
     <div>
-      <img src="pizzas/spinaci.jpg" alt='Pizza Spinaci'/>
-      <h2>Pizza Spinaci</h2>
-      <p>Tomato, mozarella, spinach</p>
+      <h2> Our Menu</h2>
+
+      <div>
+        {pizzaData.map((pizza, index) => (
+          <Pizza
+            key={index}
+            name={pizza.name}
+            photoName={pizza.photoName}
+            ingredients={pizza.ingredients}
+            price={pizza.price}
+            sold={pizza.soldOut}
+          />
+        ))}
+      </div>
+
+      {/* <Pizza
+        name="Pizza Spinachi"
+        ingredients="Tomato, mozarella"
+        photoName="pizzas/spinaci.jpg"
+        price={10}
+      />
+      <Pizza
+        name="Pizza Funghi"
+        ingredients="Tomato, cheese"
+        photoName="pizzas/funghi.jpg"
+        price={12}
+      /> */}
     </div>
-  )
+  );
 }
 
+function Pizza(props) {
+  console.log(props.sold)
+
+  if(props.sold) return null
 
 
-export default App
+  return (
+    <div className="pizza">
+      <img src={props.photoName} alt="Pizza Spinaci" />
+      <div>
+        <h2>{props.name}</h2>
+        <p>{props.ingredients}</p>
+        <span>{props.price + 3}</span>
+      </div>
+    </div>
+  );
+}
+
+function Footer() {
+  const hour = new Date().getHours();
+  const openHour = 10;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+
+  return (
+    <footer>
+      {isOpen ? (
+        <div>
+          Currently we're open for business, Please order before {closeHour}:00
+        </div>
+      ) : (
+        <div>Our business are closed for today, Please come again tomorrow</div>
+      )}
+    </footer>
+  );
+}
+
+export default App;
