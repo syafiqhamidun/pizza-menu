@@ -9,7 +9,7 @@ import React from "react";
 const pizzaData = [
   {
     name: "Focaccia",
-    ingredients: "Bread with italian olive oil and rosemary",
+    ingredients: "Bread with Italian olive oil and rosemary",
     price: 6,
     photoName: "pizzas/focaccia.jpg",
     soldOut: false,
@@ -17,7 +17,7 @@ const pizzaData = [
   },
   {
     name: "Pizza Margherita",
-    ingredients: "Tomato and mozarella",
+    ingredients: "Tomato and mozzarella",
     price: 10,
     photoName: "pizzas/margherita.jpg",
     soldOut: false,
@@ -25,7 +25,7 @@ const pizzaData = [
   },
   {
     name: "Pizza Spinaci",
-    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
+    ingredients: "Tomato, mozzarella, spinach, and ricotta cheese",
     price: 12,
     photoName: "pizzas/spinaci.jpg",
     soldOut: false,
@@ -33,7 +33,7 @@ const pizzaData = [
   },
   {
     name: "Pizza Funghi",
-    ingredients: "Tomato, mozarella, mushrooms, and onion",
+    ingredients: "Tomato, mozzarella, mushrooms, and onion",
     price: 12,
     photoName: "pizzas/funghi.jpg",
     soldOut: false,
@@ -41,7 +41,7 @@ const pizzaData = [
   },
   {
     name: "Pizza Salamino",
-    ingredients: "Tomato, mozarella, and pepperoni",
+    ingredients: "Tomato, mozzarella, and pepperoni",
     price: 15,
     photoName: "pizzas/salamino.jpg",
     soldOut: true,
@@ -49,7 +49,7 @@ const pizzaData = [
   },
   {
     name: "Pizza Prosciutto",
-    ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
+    ingredients: "Tomato, mozzarella, ham, arugula, and burrata cheese",
     price: 18,
     photoName: "pizzas/prosciutto.jpg",
     soldOut: false,
@@ -68,11 +68,6 @@ function App() {
 }
 
 function Header() {
-  // const style = {
-  //   color: 'red',
-  //   fontSize: '48px',
-  //   textTransform: 'uppercase'
-  // };
   const style = {};
 
   return (
@@ -81,55 +76,29 @@ function Header() {
     </header>
   );
 }
+
 function Menu() {
   return (
-
-
     <div>
-      <h2> Our Menu</h2>
+      <h2>Our Menu</h2>
 
-      <div>
+      <div className="menu">
         {pizzaData.map((pizza, index) => (
-          <Pizza
-            key={index}
-            name={pizza.name}
-            photoName={pizza.photoName}
-            ingredients={pizza.ingredients}
-            price={pizza.price}
-            sold={pizza.soldOut}
-          />
+          <Pizza key={index} {...pizza} />
         ))}
       </div>
-
-      {/* <Pizza
-        name="Pizza Spinachi"
-        ingredients="Tomato, mozarella"
-        photoName="pizzas/spinaci.jpg"
-        price={10}
-      />
-      <Pizza
-        name="Pizza Funghi"
-        ingredients="Tomato, cheese"
-        photoName="pizzas/funghi.jpg"
-        price={12}
-      /> */}
     </div>
   );
 }
 
-function Pizza(props) {
-  console.log(props.sold)
-
-  if(props.sold) return null
-
-
+function Pizza({ name, ingredients, photoName, price, soldOut }) {
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt="Pizza Spinaci" />
+    <div className={`pizza ${soldOut ? "sold-out" : ""}`}>
+      <img src={photoName} alt={name} />
       <div>
-        <h2>{props.name}</h2>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 3}</span>
+        <h2>{name}</h2>
+        <p>{ingredients}</p>
+        <span>{soldOut ? "Item sold out" : `$${price}`}</span>
       </div>
     </div>
   );
@@ -139,16 +108,16 @@ function Footer() {
   const hour = new Date().getHours();
   const openHour = 10;
   const closeHour = 22;
-  const isOpen = hour >= openHour && hour <= closeHour;
+  const isOpen = hour >= openHour && hour < closeHour;
 
   return (
     <footer>
       {isOpen ? (
         <div>
-          Currently we're open for business, Please order before {closeHour}:00
+          Currently we're open for business, please order before {closeHour}:00.
         </div>
       ) : (
-        <div>Our business are closed for today, Please come again tomorrow</div>
+        <div>Our business is closed for today, please come again tomorrow.</div>
       )}
     </footer>
   );
